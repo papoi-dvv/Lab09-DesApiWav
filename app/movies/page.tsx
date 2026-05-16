@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import Link from 'next/link'
 import MovieSearch from './MovieSearch'
 import MovieDetailModal from './MovieDetailModal'
@@ -123,7 +124,9 @@ export default async function MoviesPage() {
       </main>
 
       {/* Modal encargado de escuchar la URL para pintar el detalle */}
-      <MovieDetailModal />
+      <Suspense fallback={null}>
+        <MovieDetailModal />
+      </Suspense>
     </div>
   )
 }

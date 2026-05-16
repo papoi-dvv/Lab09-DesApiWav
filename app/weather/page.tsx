@@ -9,12 +9,25 @@ interface WeatherData {
   }
 }
 
+const SAMPLE_WEATHER: WeatherData = {
+  current_weather: {
+    temperature: 22,
+    windspeed: 10,
+    weathercode: 1,
+  },
+}
+
 async function getWeatherServer() {
   // Lima, Perú
-  const response = await axios.get(
-    'https://api.open-meteo.com/v1/forecast?latitude=-12.04&longitude=-77.03&current_weather=true'
-  )
-  return response.data as WeatherData
+  try {
+    const response = await axios.get(
+      'https://api.open-meteo.com/v1/forecast?latitude=-12.04&longitude=-77.03&current_weather=true'
+    )
+    return response.data as WeatherData
+  } catch (error) {
+    console.error('Error fetching SSR weather:', error)
+    return SAMPLE_WEATHER
+  }
 }
 
 export default async function WeatherDashboard() {

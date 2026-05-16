@@ -12,10 +12,29 @@ interface Pokemon {
   }>
 }
 
+const SAMPLE_POKEMON: Pokemon = {
+  name: 'pikachu',
+  sprites: {
+    front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png',
+  },
+  types: [
+    {
+      type: {
+        name: 'electric',
+      },
+    },
+  ],
+}
+
 async function getPokemon(): Promise<Pokemon> {
   const randomId = Math.floor(Math.random() * 150) + 1
-  const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${randomId}`)
-  return response.data;
+  try {
+    const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${randomId}`)
+    return response.data
+  } catch (error) {
+    console.error('Error fetching SSR Pokémon:', error)
+    return SAMPLE_POKEMON
+  }
 }
 
 export default async function PokemonSSR() {
